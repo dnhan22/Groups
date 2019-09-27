@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>details</title>
+</head>
+<body>
+    <a href="/logout">log out</a>
+    <br>
+    <a href="/groups">home</a>
+    <br>
+    {% if org in loggedinuser.org_joined.all %}
+    <a href="/leaveGroup/{{org.id}}">Leave Group</a>
+    {% else %}
+    <a href="/joinGroup/{{org.id}}">Join Group</a>
+    {% endif %}
+
+    <div class="p-3 mb-2 bg-info text-white">
+    <h1>{{org.organization}}</h1>
+    </div>
+    <h1>{{org.description}}</h1>
+    {% if loggedinuser == org.creator %}
+    <p>Created by:You</p>
+    {% else %}
+    <p>Created by:{{org.creator.firstname}}</p>
+    {% endif %}
+    <div class="p-3 mb-2 bg-info text-white">
+    <p><h1>Members:</h1></p>
+    </div>
+        <ul>
+            {% for members in org.members.all %}
+            <li><h3>{{members.firstname}}</h3></li>
+            {% endfor %}
+        </ul>
+        <br>
+</body>
+</html>

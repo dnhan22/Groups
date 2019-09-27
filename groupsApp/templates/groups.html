@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Groups</title>
+</head>
+
+<body>
+    <a href="/logout">log out</a>
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li style = "color: red;">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="p-3 mb-2 bg-info text-white">
+
+<p><h1>Welcome {{loggedinuser.firstname}} !</h1></p>
+<p><h3>Here are the organizations you may join:</h3></p>
+</div>
+
+{% for groups in allgroups %}
+<a href="details/{{groups.id}}">{{groups.organization}}:</a>
+<br>
+{{groups.description}}
+<br>
+Members:{{groups.members.count}}
+<br>
+{% if loggedinuser == groups.creator %}<a href="/removeGroup/{{groups.id}}">REMOVE</a>{% endif %}
+<br>
+<br>
+{% endfor %}
+<br>
+<div class="p-3 mb-2 bg-info text-white">
+    <p><h1>Create a new organization:</h1></p>
+</div>
+
+    <form action="/addOrg" method="post">
+    {% csrf_token %}
+    Org Name: <input type="text" name="orgname" id="">
+    <br>
+    <br>Description:</br> <textarea name="desc" id="" cols="30" rows="10"></textarea>
+    <br>
+    <input type="submit" value="create">
+
+</body>
+</html>
